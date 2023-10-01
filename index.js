@@ -30,6 +30,24 @@ app.get("/api/persons", (request, response) => {
   response.json(persons);
 });
 
+const generateId = () => {
+  const minId =
+    persons.length > 0 ? Math.max(...persons.map((n) => n.id)) + 1 : 0;
+  const maxId = minId + 3;
+  return Math.floor(Math.random() * (maxId - minId) + minId);
+};
+
+app.post("/api/persons", (request, response) => {
+  const { body } = request;
+  const person = {
+    ...body,
+    id: generateId(),
+  };
+
+  persons = persons.concat(person);
+  response.json(person);
+});
+
 app.get("/api/persons/:id", (request, response) => {
   const personId = Number(request.params.id);
   const personFound = persons.find(({ id }) => id === personId);
