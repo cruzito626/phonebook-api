@@ -32,11 +32,18 @@ app.get("/api/persons", (request, response) => {
 
 app.get("/api/persons/:id", (request, response) => {
   const personId = Number(request.params.id);
-  const personFound = persons.find(({ id }) => id == personId);
+  const personFound = persons.find(({ id }) => id === personId);
 
   if (!personFound) return response.status(404).end();
 
   response.json(personFound);
+});
+
+app.delete("/api/persons/:id", (request, response) => {
+  const personId = Number(request.params.id);
+  persons = persons.filter(({ id }) => id !== personId);
+
+  response.status(204).end();
 });
 
 app.get("/api/info", (request, response) => {
